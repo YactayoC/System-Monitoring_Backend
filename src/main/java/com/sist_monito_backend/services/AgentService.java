@@ -1,7 +1,7 @@
 package com.sist_monito_backend.services;
 
 import com.sist_monito_backend.repositories.IClientRepository;
-import com.sist_monito_backend.models.Client;
+import com.sist_monito_backend.entities.Agent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,19 +15,19 @@ public class ClientService implements IClientService {
 
    @Override
    @Transactional(readOnly = true)
-   public List<Client> findAll() {
-      return (List<Client>) clientRepository.findAll();
+   public List<Agent> findAll() {
+      return (List<Agent>) clientRepository.findAll();
    }
 
    @Override
    @Transactional(readOnly = true)
-   public Client findById(Long id) {
+   public Agent findById(Long id) {
       return clientRepository.findById(id).orElse(null);
    }
 
    @Override
-   @Transactional
-   public Client save(Client client) {
+   @Transactional()
+   public Agent save(Agent client) {
       return clientRepository.save(client);
    }
 
