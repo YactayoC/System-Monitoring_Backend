@@ -1,43 +1,38 @@
-package com.sist_monito_backend.models;
+package com.sist_monito_backend.entities;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
+import javax.transaction.Transactional;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
-import java.io.Serializable;
 
 @Getter
 @Setter
 @Entity
+@Transactional
+@NoArgsConstructor
 @Table(name = "agent")
-public class Agent implements Serializable {
-   private static final long serialVersionUID = 1L;
+public class Agent {
 
    @Id
+   @Column(name = "id_agent")
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    private Long idAgent;
-
-   private Long idUser;
 
    @NotEmpty(message = "Can not be empty")
    @Size(min = 4, max = 12, message = "The size must be between 4 and 12 characters")
    @Column(nullable = false)
-   private String fullName;
+   private String fullname;
 
    @NotEmpty(message = "Can not be empty")
    private String dni;
 
-   @NotEmpty(message = "can not be empty")
-   @Email(message = "It is not a valid email")
-   @Column(nullable = false, unique = true)
-   private String email;
-
-   @OneToOne(fetch = FetchType.LAZY, optional = false)
-   @JoinColumn(name = "idUser")
-   @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+   @OneToOne(cascade = CascadeType.ALL)
+   @JoinColumn(name = "id_user")
+   @JsonManagedReference
    private User user;
 }
