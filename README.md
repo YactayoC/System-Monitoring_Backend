@@ -37,7 +37,7 @@ git clone https://github.com/APEREZB26/-SIST_MONITO_BACKEND.git
 
 
 * **Sebastián Yactayo** - *aporte* - [YactayoC](https://github.com/YactayoC)
-* **Sebastián Chaquila** - *aporte* - [CodeSCH](link a github)
+* **Sebastián Chaquila** - *aporte* - [CodeSCH](https://github.com/CodeSCH)
 
 
 
