@@ -2,6 +2,7 @@ package com.sist_monito_backend.entities;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,13 +10,17 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.Date;
 
 @Getter
 @Setter
 @Entity
-@Table(name = "user")
-public class User {
+@Table(name = "users")
+public class User implements Serializable {
+   @Serial
+   private static final long serialVersionUID = 1L;
 
    @Id
    @Column(name = "id_user")
@@ -41,7 +46,12 @@ public class User {
       createdAt = new Date();
    }
 
-   @OneToOne(mappedBy = "user")
+   @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
    @JsonBackReference
    private Agent agent;
+
+   @ManyToOne()
+   @JoinColumn(name = "id_role")
+   @JsonManagedReference
+   private Role role;
 }
