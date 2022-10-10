@@ -1,7 +1,7 @@
 package com.sist_monito_backend.controllers;
 
 import com.sist_monito_backend.entities.Agent;
-import com.sist_monito_backend.services.AgentService;
+import com.sist_monito_backend.services.interfaces.IAgentService;
 import com.sist_monito_backend.utils.ValidateErrorsFields;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -16,13 +16,13 @@ import java.util.List;
 import java.util.Map;
 
 @CrossOrigin(origins = {"*"})
+@RequestMapping("/api/agent")
 @RestController
-@RequestMapping("/api")
 public class AgentController {
    ValidateErrorsFields validateErrorsFields = new ValidateErrorsFields();
 
    @Autowired
-   private AgentService agentService;
+   private IAgentService agentService;
 
 
    @GetMapping("/agents")
@@ -54,15 +54,13 @@ public class AgentController {
    @PostMapping("/agents")
    public ResponseEntity<?> createAgent(@Valid @RequestBody Agent agent, BindingResult result) {
       Map<String, Object> response = new HashMap<>();
-      Agent agentNew;
 
       if (validateErrorsFields.validateErrors(result, response))
          return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 
       try {
-         agentNew = agentService.save(agent);
+         agentService.save(agent);
          response.put("message", "Agent created successfully");
-         response.put("agent", agentNew);
          return new ResponseEntity<>(response, HttpStatus.CREATED);
       } catch (DataAccessException e) {
          response.put("message", "Error inserting into database");
@@ -75,7 +73,6 @@ public class AgentController {
    public ResponseEntity<?> update(@Valid @RequestBody Agent agent, BindingResult result, @PathVariable Long id) {
       Map<String, Object> response = new HashMap<>();
       Agent currentClient = agentService.findById(id);
-      Agent updatedClient;
 
       if (validateErrorsFields.validateErrors(result, response))
          return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
@@ -90,10 +87,9 @@ public class AgentController {
          currentClient.setDni(agent.getDni());
          currentClient.getUser().setEmail(agent.getUser().getEmail());
          currentClient.getUser().setPassword(agent.getUser().getPassword());
-         updatedClient = agentService.save(currentClient);
+         agentService.save(currentClient);
 
          response.put("message", "Client updated successfully");
-         response.put("client", updatedClient);
          return new ResponseEntity<>(response, HttpStatus.CREATED);
       } catch (DataAccessException e) {
          response.put("message", "Error updating client in the database");
@@ -117,5 +113,4 @@ public class AgentController {
          return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
       }
    }
-
 }
