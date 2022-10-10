@@ -9,14 +9,18 @@ import javax.persistence.*;
 import javax.transaction.Transactional;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import java.io.Serial;
+import java.io.Serializable;
 
 @Getter
 @Setter
 @Entity
 @Transactional
 @NoArgsConstructor
-@Table(name = "agent")
-public class Agent {
+@Table(name = "agents")
+public class Agent implements Serializable {
+   @Serial
+   private static final long serialVersionUID = 1L;
 
    @Id
    @Column(name = "id_agent")

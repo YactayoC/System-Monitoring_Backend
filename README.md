@@ -25,7 +25,7 @@ _What you need to install the software_
 ---
 ## Installation 🔧
 1. *Clone the repository*
-```
+
 ```bash
 git clone https://github.com/APEREZB26/-SIST_MONITO_BACKEND.git
 ```
